@@ -1,4 +1,5 @@
 import flask
+import codecs
 from flask import Flask
 import re
 from functools import wraps
@@ -6,10 +7,11 @@ import json
 from flask import Response
 
 app = Flask(__name__)
-with open('data.txt', mode='r') as file:
+with codecs.open('data.txt', mode='r', encoding='UTF-16') as file:
     data = file.read()
 result = re.findall(r'([가-힣)(]+)\s+([0-9\.]+|null)\s+([0-9\.]+|null)', data)
 print(result)
+
 
 def as_json(f):
     @wraps(f)
@@ -17,6 +19,7 @@ def as_json(f):
         res = f(*args, **kwargs)
         res = json.dumps(res, ensure_ascii=False).encode('utf8')
         return Response(res, content_type='application/json; charset=utf-8')
+
     return decorated_function
 
 
@@ -35,7 +38,7 @@ def search(input):
             print('<-this')
             data_dic = {"name": school[0], "uni_percent": school[1], "job_percent": school[2]}
             school_list.append(data_dic)
-    wrap_data = {"result":school_list}
+    wrap_data = {"result": school_list}
     return wrap_data
 
 
