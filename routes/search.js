@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
                     //console.log(match[0],match[1],match[2]);
             }
         }
-        return res.status(200).send({"data":arr});
+        return res.status(200).send(arr);
     });
 });
 router.post('/tags', (req, res) => {
