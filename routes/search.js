@@ -21,7 +21,17 @@ router.post('/', (req, res) => {
                     //console.log(match[0],match[1],match[2]);
             }
         }
-        return res.status(200).send(arr);
+        return res.status(200).send({"data":arr});
     });
-})
+});
+router.post('/tags', (req, res) => {
+    const {
+        query
+    } = req.body;
+    if (!query) return res.status(400).send("param error");
+    fs.readFile('./public/files/tags.txt', 'utf-8', (err, data) => {
+        if (err) return res.status(400).send("File error");
+        res.status(200).send(data);
+    });
+});
 module.exports = router;
